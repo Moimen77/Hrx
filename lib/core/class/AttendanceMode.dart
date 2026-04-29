@@ -1,0 +1,1 @@
+enum Attendancemode { checkIn, checkOut }
