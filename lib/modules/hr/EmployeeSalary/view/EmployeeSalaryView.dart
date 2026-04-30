@@ -1,6 +1,6 @@
 // ignore_for_file: body_might_complete_normally_nullable
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:get/get.dart';
 import 'package:hrx/core/class/ResponsiveClass.dart';
 import 'package:hrx/core/class/spAdabt.dart';
@@ -13,7 +13,6 @@ import 'package:hrx/modules/hr/EmployeeSalary/widget/ShowSalaryDetails.dart';
 import 'package:hrx/modules/hr/EmployeeSalary/widget/TitleSalaryCard.dart';
 import 'package:hrx/modules/hr/EmployeeSalary/widget/addCasesDialog.dart';
 import 'package:hrx/shared_widgets/LoadingCircular.dart';
-import 'package:hrx/shared_widgets/NoInternetWidget.dart';
 
 class SalaryScreen extends GetView<SalaryController> {
   const SalaryScreen({super.key});
@@ -78,11 +77,13 @@ class SalaryScreen extends GetView<SalaryController> {
                   children: [
                     _buildHeader(context, isDesktopCard: true),
                     const SizedBox(height: 16),
-                    _buildFilters(
-                      context,
-                      useWrap: true,
-                      showHeader: true,
-                      isDesktopCard: true,
+                    Expanded(
+                      child: _buildFilters(
+                        context,
+                        useWrap: true,
+                        showHeader: true,
+                        isDesktopCard: true,
+                      ),
                     ),
                   ],
                 ),
@@ -126,7 +127,11 @@ class SalaryScreen extends GetView<SalaryController> {
         children: [
           /// زرار الثلاث نقاط فوق
           Positioned(
-            top: 22,
+            top: Responsive.isMobile(context)
+                ? 22
+                : Responsive.isTablet(context)
+                ? 120
+                : 145,
             right: 0,
             child: _buildActionsMenu(context, salary),
           ),
@@ -195,9 +200,9 @@ class SalaryScreen extends GetView<SalaryController> {
           color: Colors.blueGrey.withOpacity(0.08),
           borderRadius: BorderRadius.circular(10),
         ),
-        child: const Icon(
+        child: Icon(
           Icons.more_vert_rounded,
-          size: 20,
+          size: 18.spAdaptive(context),
           color: Colors.blueGrey,
         ),
       ),
@@ -289,7 +294,11 @@ class SalaryScreen extends GetView<SalaryController> {
       height: 42,
       child: Row(
         children: [
-          Icon(icon, size: 20, color: iconColor ?? Colors.blueGrey.shade600),
+          Icon(
+            icon,
+            size: 20.spAdaptive(Get.context!),
+            color: iconColor ?? Colors.blueGrey.shade600,
+          ),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
@@ -327,52 +336,54 @@ class SalaryScreen extends GetView<SalaryController> {
           ),
         ],
       ),
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (showHeader) ...[
-              Text(
-                'فلترة الرواتب',
-                style: cairoStyle(
-                  fontSize: 18.spAdaptive(context),
-                  fontweight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'ابحث باسم الموظف أو اختر نوع الراتب للوصول إلى السجل المطلوب بسرعة.',
-                style: cairoStyle(
-                  fontSize: 13.spAdaptive(context),
-                  fontcolor: Colors.black54,
-                ),
-              ),
-              const SizedBox(height: 18),
-            ],
-            useWrap
-                ? Wrap(
-                    spacing: 10,
-                    runSpacing: 10,
-                    children: [
-                      SizedBox(
-                        width: isDesktopCard ? double.infinity : 220,
-                        child: _searchField(context),
-                      ),
-                      SizedBox(
-                        width: isDesktopCard ? double.infinity : 170,
-                        child: _salaryTypeDropdown(context),
-                      ),
-                    ],
-                  )
-                : Row(
-                    children: [
-                      Expanded(child: _searchField(context)),
-                      const SizedBox(width: 8),
-                      Expanded(child: _salaryTypeDropdown(context)),
-                    ],
+      child: SingleChildScrollView(
+        child: Directionality(
+          textDirection: TextDirection.rtl,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (showHeader) ...[
+                Text(
+                  'فلترة الرواتب',
+                  style: cairoStyle(
+                    fontSize: 16.spAdaptive(context),
+                    fontweight: FontWeight.bold,
                   ),
-          ],
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'ابحث باسم الموظف أو اختر نوع الراتب للوصول إلى السجل المطلوب بسرعة.',
+                  style: cairoStyle(
+                    fontSize: 13.spAdaptive(context),
+                    fontcolor: Colors.black54,
+                  ),
+                ),
+                const SizedBox(height: 18),
+              ],
+              useWrap
+                  ? Wrap(
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: [
+                        SizedBox(
+                          width: isDesktopCard ? double.infinity : 220,
+                          child: _searchField(context),
+                        ),
+                        SizedBox(
+                          width: isDesktopCard ? double.infinity : 170,
+                          child: _salaryTypeDropdown(context),
+                        ),
+                      ],
+                    )
+                  : Row(
+                      children: [
+                        Expanded(child: _searchField(context)),
+                        const SizedBox(width: 8),
+                        Expanded(child: _salaryTypeDropdown(context)),
+                      ],
+                    ),
+            ],
+          ),
         ),
       ),
     );
@@ -952,6 +963,7 @@ class SalaryScreen extends GetView<SalaryController> {
 
   Widget _buildHeader(BuildContext context, {bool isDesktopCard = false}) {
     return Container(
+      width: double.infinity,
       margin: EdgeInsets.only(top: isDesktopCard ? 0 : 10),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
@@ -982,14 +994,12 @@ class SalaryScreen extends GetView<SalaryController> {
             ),
           ),
           const SizedBox(width: 12),
-          Expanded(
-            child: Obx(
-              () => Text(
-                "رواتب شهر ${controller.selectedDate.value.month} / ${controller.selectedDate.value.year}",
-                style: cairoStyle(
-                  fontSize: 15.spAdaptive(context),
-                  fontweight: FontWeight.w600,
-                ),
+          Obx(
+            () => Text(
+              "رواتب شهر ${controller.selectedDate.value.month} / ${controller.selectedDate.value.year}",
+              style: cairoStyle(
+                fontSize: 14.spAdaptive(context),
+                fontweight: FontWeight.w600,
               ),
             ),
           ),

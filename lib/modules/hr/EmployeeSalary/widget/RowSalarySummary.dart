@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:gap/gap.dart';
+
 import 'package:hrx/data/models/EmployeeSalaryResult.dart';
 import 'package:hrx/modules/hr/EmployeeSalary/widget/InfoSalaryitem.dart';
 
@@ -12,13 +12,10 @@ class RowSalarySummary extends StatelessWidget {
     final bool isshifts = salary.salarytype == 'shifts';
     final Salarydetails = salary.salaryDetails;
 
-    return Wrap(
-      spacing: 20,
-      runSpacing: 12,
-      alignment: WrapAlignment.spaceBetween,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
-          width: 90,
           child: Infosalaryitem(
             label: isshifts ? "سعر الشفت" : "الأساسي",
             value: isshifts
@@ -27,28 +24,22 @@ class RowSalarySummary extends StatelessWidget {
           ),
         ),
         SizedBox(
-          width: 90,
           child: Infosalaryitem(
             label: isshifts ? "ايام الحضور" : "ساعات العمل",
             value: isshifts
                 ? "${(Salarydetails as ShiftSalaryDetails).shiftsCount}"
-                : (Salarydetails as SalaryDetails)
-                    .workedHours
-                    .total
-                    .toStringAsFixed(1),
+                : (Salarydetails as SalaryDetails).workedHours.total
+                      .toStringAsFixed(1),
           ),
         ),
         SizedBox(
-          width: 90,
           child: Infosalaryitem(
             label: "الجزائات",
             value: isshifts
-                ? ((Salarydetails as ShiftSalaryDetails)
-                    .penalties
-                    .toStringAsFixed(1))
-                : ((Salarydetails as SalaryDetails)
-                    .penaltiesAmount
-                    .toStringAsFixed(1)),
+                ? ((Salarydetails as ShiftSalaryDetails).penalties
+                      .toStringAsFixed(1))
+                : ((Salarydetails as SalaryDetails).penaltiesAmount
+                      .toStringAsFixed(1)),
           ),
         ),
       ],
