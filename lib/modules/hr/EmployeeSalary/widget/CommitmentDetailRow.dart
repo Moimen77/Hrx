@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrx/core/class/spAdabt.dart';
 import 'package:hrx/core/constant/TextStyleConst.dart';
 
 class CommitmentDetailRow extends StatelessWidget {
@@ -15,20 +16,23 @@ class CommitmentDetailRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         isSuccess == null
-            ? SizedBox.shrink()
+            ? const SizedBox.shrink()
             : Icon(
                 isSuccess! ? Icons.check_circle : Icons.cancel,
                 color: isSuccess! ? Colors.green : Colors.red,
-                size: 14,
+                size: 14.spAdaptive(context),
               ),
         const SizedBox(width: 6),
-        Text(
-          "$label: $value",
-          style: cairoStyle(
-            fontSize: 12,
-            fontcolor: isSuccess != null ? Colors.grey : Colors.red,
+        Expanded(
+          child: Text(
+            "$label: $value",
+            style: cairoStyle(
+              fontSize: 12.spAdaptive(context),
+              fontcolor: isSuccess != null ? Colors.grey : Colors.red,
+            ),
           ),
         ),
       ],

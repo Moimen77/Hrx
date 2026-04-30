@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrx/core/class/spAdabt.dart';
 import 'package:hrx/core/constant/TextStyleConst.dart';
 
 class Infosalaryitem extends StatelessWidget {
@@ -9,12 +10,24 @@ class Infosalaryitem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Text(label, style: cairoStyle(fontSize: 12, fontcolor: Colors.grey)),
+        Text(
+          label,
+          textAlign: TextAlign.center,
+          style: cairoStyle(
+            fontSize: 12.spAdaptive(context),
+            fontcolor: Colors.grey,
+          ),
+        ),
         const SizedBox(height: 4),
         Text(
           value,
-          style: cairoStyle(fontSize: 14, fontweight: FontWeight.w600),
+          textAlign: TextAlign.center,
+          style: cairoStyle(
+            fontSize: 14.spAdaptive(context),
+            fontweight: FontWeight.w600,
+          ),
         ),
       ],
     );

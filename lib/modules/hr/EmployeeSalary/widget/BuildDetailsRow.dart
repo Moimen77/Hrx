@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrx/core/class/spAdabt.dart';
 import 'package:hrx/core/constant/TextStyleConst.dart';
 
 class BuildDetailsRow extends StatelessWidget {
@@ -19,19 +20,25 @@ class BuildDetailsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: cairoStyle(fontSize: 14, fontweight: FontWeight.bold),
+        Expanded(
+          child: Text(
+            title,
+            style: cairoStyle(
+              fontSize: 14.spAdaptive(context),
+              fontweight: FontWeight.bold,
+            ),
+          ),
         ),
+        const SizedBox(width: 12),
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
               value,
               style: cairoStyle(
-                fontSize: 14,
+                fontSize: 14.spAdaptive(context),
                 fontweight: FontWeight.bold,
                 fontcolor:
                     valueColor ?? (isNegative ? Colors.red : Colors.black),
@@ -40,7 +47,10 @@ class BuildDetailsRow extends StatelessWidget {
             if (subValue != null)
               Text(
                 subValue!,
-                style: cairoStyle(fontSize: 10, fontcolor: Colors.grey),
+                style: cairoStyle(
+                  fontSize: 10.spAdaptive(context),
+                  fontcolor: Colors.grey,
+                ),
               ),
           ],
         ),

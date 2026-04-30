@@ -1,12 +1,16 @@
 // ignore_for_file: body_might_complete_normally_nullable
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:hrx/core/class/ResponsiveClass.dart';
+import 'package:hrx/core/class/spAdabt.dart';
 import 'package:hrx/core/constant/TextStyleConst.dart';
 import 'package:hrx/data/models/EmployeeSalaryResult.dart';
 import 'package:hrx/modules/hr/EmployeeSalary/controller/SalaryController.dart';
 import 'package:hrx/modules/hr/EmployeeSalary/widget/RowSalarySummary.dart';
 import 'package:hrx/modules/hr/EmployeeSalary/widget/ShiftModalSheet.dart';
 import 'package:hrx/modules/hr/EmployeeSalary/widget/ShowSalaryDetails.dart';
+import 'package:hrx/modules/hr/EmployeeSalary/widget/TitleSalaryCard.dart';
 import 'package:hrx/modules/hr/EmployeeSalary/widget/addCasesDialog.dart';
 import 'package:hrx/shared_widgets/LoadingCircular.dart';
 import 'package:hrx/shared_widgets/NoInternetWidget.dart';
@@ -16,124 +20,95 @@ class SalaryScreen extends GetView<SalaryController> {
 
   @override
   Widget build(BuildContext context) {
+    final isDesktop = Responsive.isDesktop(context);
+    final isTablet = Responsive.isTablet(context);
+
+    if (isDesktop) {
+      return _desktopLayout(context);
+    } else if (isTablet) {
+      return _tabletLayout(context);
+    } else {
+      return _mobileLayout(context);
+    }
+  }
+
+  Widget _mobileLayout(BuildContext context) {
     return Column(
       children: [
-        _buildHeader(),
+        _buildHeader(context),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-          child: Directionality(
-            textDirection: TextDirection.rtl,
-            child: Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.grey.shade200),
-                    ),
-                    child: TextField(
-                      onChanged: (v) => controller.searchQuery.value = v,
-                      decoration: InputDecoration(
-                        hintText: 'بحث باسم الموظف...',
-                        hintStyle: cairoStyle(
-                          fontSize: 12,
-                          fontcolor: Colors.grey,
-                        ),
-                        prefixIcon: const Icon(Icons.search, size: 20),
-                        border: InputBorder.none,
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: 10,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Obx(
-                  () => Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.grey.shade200),
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        value: controller.selectedSalaryType.value,
-                        style: cairoStyle(fontSize: 12),
-                        onChanged: (v) =>
-                            controller.selectedSalaryType.value = v!,
-                        items: controller.salaryTypeLabels.entries
-                            .map(
-                              (entry) => DropdownMenuItem(
-                                value: entry.key,
-                                child: Text(entry.value),
-                              ),
-                            )
-                            .toList(),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: _buildFilters(context, useWrap: true),
         ),
-        Expanded(
-          child: Obx(() {
-            if (!controller.networkController.isConnected.value) {
-              return NoInternetWidget(
-                onPressed: () async {
-                  await controller.fetchAllSalaries();
-                },
-              );
-            }
-            if (controller.isLoading.value ||
-                controller.networkController.isChecking.value) {
-              return Center(child: Loadingcircular());
-            }
-            final displayList = controller.filteredSalaries;
-            if (displayList.isEmpty) {
-              return Center(
+        Expanded(child: _buildContent(context)),
+      ],
+    );
+  }
+
+  Widget _tabletLayout(BuildContext context) {
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 980),
+        child: Column(
+          children: [
+            _buildHeader(context),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: _buildFilters(context, useWrap: false),
+            ),
+            Expanded(child: _buildContent(context)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _desktopLayout(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1280),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                flex: 3,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.payments_outlined,
-                      size: 60,
-                      color: Colors.grey.shade400,
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      "لا توجد بيانات رواتب مطابقة للبحث",
-                      style: cairoStyle(
-                        fontSize: 14,
-                        fontcolor: Colors.grey.shade600,
-                      ),
+                    _buildHeader(context, isDesktopCard: true),
+                    const SizedBox(height: 16),
+                    _buildFilters(
+                      context,
+                      useWrap: true,
+                      showHeader: true,
+                      isDesktopCard: true,
                     ),
                   ],
                 ),
-              );
-            }
-
-            return RefreshIndicator(
-              onRefresh: () async {
-                await controller.fetchAllSalaries();
-              },
-              child: ListView.separated(
-                padding: const EdgeInsets.all(16),
-                itemCount: displayList.length,
-                separatorBuilder: (c, i) => const SizedBox(height: 12),
-                itemBuilder: (context, index) {
-                  final SalaryResultModel salary = displayList[index];
-                  return _buildSalaryCard(context, salary);
-                },
               ),
-            );
-          }),
+              const SizedBox(width: 24),
+              Expanded(
+                flex: 7,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.04),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: _buildContent(context),
+                ),
+              ),
+            ],
+          ),
         ),
-      ],
+      ),
     );
   }
 
@@ -141,7 +116,7 @@ class SalaryScreen extends GetView<SalaryController> {
     final isPaid = salary.isPaid;
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.spAdaptive(context)),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
@@ -160,26 +135,17 @@ class SalaryScreen extends GetView<SalaryController> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              /// اسم الموظف + الحالة
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      salary.name,
-                      style: cairoStyle(
-                        fontSize: 16,
-                        fontweight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  _buildStatusBadge(isPaid),
-                ],
+              TitleSalaryCard(salary: salary),
+              const SizedBox(height: 6),
+              Align(
+                alignment: Alignment.centerRight,
+                child: _buildStatusBadge(context, isPaid),
               ),
               const SizedBox(height: 6),
               Text(
                 "الرقم الوظيفي: ${salary.employeeId}",
                 style: cairoStyle(
-                  fontSize: 12,
+                  fontSize: 12.spAdaptive(context),
                   fontcolor: Colors.grey.shade600,
                 ),
               ),
@@ -196,9 +162,12 @@ class SalaryScreen extends GetView<SalaryController> {
     );
   }
 
-  Widget _buildStatusBadge(bool isPaid) {
+  Widget _buildStatusBadge(BuildContext context, bool isPaid) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: EdgeInsets.symmetric(
+        horizontal: 10.spAdaptive(context),
+        vertical: 4.spAdaptive(context),
+      ),
       decoration: BoxDecoration(
         color: isPaid ? Colors.green.shade50 : Colors.orange.shade50,
         borderRadius: BorderRadius.circular(20),
@@ -206,7 +175,7 @@ class SalaryScreen extends GetView<SalaryController> {
       child: Text(
         isPaid ? "مدفوع" : "قيد المراجعة",
         style: cairoStyle(
-          fontSize: 11,
+          fontSize: 11.spAdaptive(context),
           fontweight: FontWeight.w600,
           fontcolor: isPaid ? Colors.green : Colors.orange,
         ),
@@ -271,23 +240,19 @@ class SalaryScreen extends GetView<SalaryController> {
           icon: Icons.receipt_long_outlined,
           text: 'عرض التفاصيل',
         ),
-
         if (!salary.isPaid) const PopupMenuDivider(height: 8),
-
         if (!salary.isPaid && salary.salarytype != 'shifts')
           _buildMenuItem(
             value: 'allowance',
             icon: Icons.add_card_outlined,
             text: 'إضافة بدلات',
           ),
-
         if (!salary.isPaid)
           _buildMenuItem(
             value: 'hr_score',
             icon: Icons.star_outline,
             text: 'تقييم HR',
           ),
-
         if (!salary.isPaid)
           _buildMenuItem(
             value: 'pay',
@@ -330,7 +295,7 @@ class SalaryScreen extends GetView<SalaryController> {
             child: Text(
               text,
               style: cairoStyle(
-                fontSize: 14,
+                fontSize: 14.spAdaptive(Get.context!),
                 fontweight: FontWeight.w500,
                 fontcolor: textColor ?? Colors.blueGrey.shade800,
               ),
@@ -339,6 +304,184 @@ class SalaryScreen extends GetView<SalaryController> {
         ],
       ),
     );
+  }
+
+  Widget _buildFilters(
+    BuildContext context, {
+    required bool useWrap,
+    bool showHeader = false,
+    bool isDesktopCard = false,
+  }) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.grey.shade200),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Directionality(
+        textDirection: TextDirection.rtl,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (showHeader) ...[
+              Text(
+                'فلترة الرواتب',
+                style: cairoStyle(
+                  fontSize: 18.spAdaptive(context),
+                  fontweight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'ابحث باسم الموظف أو اختر نوع الراتب للوصول إلى السجل المطلوب بسرعة.',
+                style: cairoStyle(
+                  fontSize: 13.spAdaptive(context),
+                  fontcolor: Colors.black54,
+                ),
+              ),
+              const SizedBox(height: 18),
+            ],
+            useWrap
+                ? Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: [
+                      SizedBox(
+                        width: isDesktopCard ? double.infinity : 220,
+                        child: _searchField(context),
+                      ),
+                      SizedBox(
+                        width: isDesktopCard ? double.infinity : 170,
+                        child: _salaryTypeDropdown(context),
+                      ),
+                    ],
+                  )
+                : Row(
+                    children: [
+                      Expanded(child: _searchField(context)),
+                      const SizedBox(width: 8),
+                      Expanded(child: _salaryTypeDropdown(context)),
+                    ],
+                  ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _searchField(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade200),
+      ),
+      child: TextField(
+        onChanged: (v) => controller.searchQuery.value = v,
+        decoration: InputDecoration(
+          hintText: 'بحث باسم الموظف...',
+          hintStyle: cairoStyle(
+            fontSize: 12.spAdaptive(context),
+            fontcolor: Colors.grey,
+          ),
+          prefixIcon: Icon(Icons.search, size: 20.spAdaptive(context)),
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.symmetric(vertical: 10),
+        ),
+      ),
+    );
+  }
+
+  Widget _salaryTypeDropdown(BuildContext context) {
+    return Obx(
+      () => Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey.shade200),
+        ),
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton<String>(
+            value: controller.selectedSalaryType.value,
+            isExpanded: true,
+            style: cairoStyle(fontSize: 12.spAdaptive(context)),
+            onChanged: (v) => controller.selectedSalaryType.value = v!,
+            items: controller.salaryTypeLabels.entries
+                .map(
+                  (entry) => DropdownMenuItem(
+                    value: entry.key,
+                    child: Text(entry.value),
+                  ),
+                )
+                .toList(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildContent(BuildContext context) {
+    return Obx(() {
+      if (controller.isLoading.value ||
+          controller.networkController.isChecking.value) {
+        return Center(child: Loadingcircular());
+      }
+      final displayList = controller.filteredSalaries;
+      if (displayList.isEmpty) {
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.payments_outlined,
+                size: 60.spAdaptive(context),
+                color: Colors.grey.shade400,
+              ),
+              const SizedBox(height: 12),
+              Text(
+                "لا توجد بيانات رواتب مطابقة للبحث",
+                style: cairoStyle(
+                  fontSize: 14.spAdaptive(context),
+                  fontcolor: Colors.grey.shade600,
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+
+      return RefreshIndicator(
+        onRefresh: () async {
+          await controller.fetchAllSalaries();
+        },
+        child: ListView.separated(
+          padding: const EdgeInsets.all(16),
+          itemCount: displayList.length,
+          separatorBuilder: (c, i) => const SizedBox(height: 12),
+          itemBuilder: (context, index) {
+            final SalaryResultModel salary = displayList[index];
+            return Center(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: Responsive.isDesktop(context) ? 920 : 820,
+                ),
+                child: _buildSalaryCard(context, salary),
+              ),
+            );
+          },
+        ),
+      );
+    });
   }
 
   void _confirmPaySalary(BuildContext context, SalaryResultModel salary) {
@@ -807,16 +950,24 @@ class SalaryScreen extends GetView<SalaryController> {
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(BuildContext context, {bool isDesktopCard = false}) {
     return Container(
-      margin: const EdgeInsets.only(top: 10),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      margin: EdgeInsets.only(top: isDesktopCard ? 0 : 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.grey.shade200),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
-      child: Row(
+      child: Wrap(
+        alignment: WrapAlignment.spaceBetween,
         children: [
           Container(
             padding: const EdgeInsets.all(10),
@@ -824,7 +975,7 @@ class SalaryScreen extends GetView<SalaryController> {
               color: Colors.blue.shade50,
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.calendar_month_rounded,
               color: Colors.blue,
               size: 20,
@@ -835,13 +986,19 @@ class SalaryScreen extends GetView<SalaryController> {
             child: Obx(
               () => Text(
                 "رواتب شهر ${controller.selectedDate.value.month} / ${controller.selectedDate.value.year}",
-                style: cairoStyle(fontSize: 15, fontweight: FontWeight.w600),
+                style: cairoStyle(
+                  fontSize: 15.spAdaptive(context),
+                  fontweight: FontWeight.w600,
+                ),
               ),
             ),
           ),
           IconButton(
             onPressed: controller.updateDate,
-            icon: const Icon(Icons.edit_calendar_rounded),
+            icon: Icon(
+              Icons.edit_calendar_rounded,
+              size: 20.spAdaptive(context),
+            ),
           ),
         ],
       ),

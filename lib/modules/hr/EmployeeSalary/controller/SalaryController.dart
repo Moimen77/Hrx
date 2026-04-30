@@ -152,9 +152,9 @@ class SalaryController extends GetxController {
   Future<void> fetchAllSalaries() async {
     isLoading.value = true;
     try {
-      if (!networkController.isConnected.value) {
-        return;
-      }
+      // if (!networkController.isConnected.value) {
+      //   return;
+      // }
       final results = await repo.calculateAllSalaries(
         year: selectedDate.value.year,
         month: selectedDate.value.month,
