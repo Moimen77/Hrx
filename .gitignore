@@ -34,6 +34,7 @@ migrate_working_dir/
 /build/
 android/app/google-services.json
 resources/assets/ServiceAccount/
+.env
 
 
 # Symbolication related
