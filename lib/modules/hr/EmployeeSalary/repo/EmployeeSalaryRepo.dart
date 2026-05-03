@@ -124,7 +124,8 @@ class SalaryRepo {
         .from('Employees')
         .select(
           'id, name, AppointmentDate, qualification, years_number_employement , employee_type',
-        );
+        )
+        .eq('status', 'Active');
 
     final hrScoresRes = await supabase
         .from('Hr_Evaluation')
