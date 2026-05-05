@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrx/core/class/spAdabt.dart';
 import 'package:hrx/core/constant/TextStyleConst.dart';
 
 class MangementCard extends StatelessWidget {
@@ -21,7 +22,7 @@ class MangementCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(16),
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(14),
+        padding: EdgeInsets.all(14.spAdaptive(context)),
         margin: const EdgeInsets.symmetric(vertical: 5),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -37,12 +38,16 @@ class MangementCard extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(10),
+              padding: EdgeInsets.all(10.spAdaptive(context)),
               decoration: BoxDecoration(
                 color: Colors.blue.shade100,
                 borderRadius: BorderRadius.circular(14),
               ),
-              child: Icon(icon, size: 28, color: Colors.blue.shade700),
+              child: Icon(
+                icon,
+                size: 28.spAdaptive(context),
+                color: Colors.blue.shade700,
+              ),
             ),
             const SizedBox(width: 15),
             Expanded(
@@ -52,7 +57,7 @@ class MangementCard extends StatelessWidget {
                   Text(
                     title,
                     style: cairoStyle(
-                      fontSize: 16,
+                      fontSize: 16.spAdaptive(context),
                       fontweight: FontWeight.bold,
                       fontcolor: Colors.black87,
                     ),
@@ -61,7 +66,7 @@ class MangementCard extends StatelessWidget {
                   Text(
                     subtitle,
                     style: cairoStyle(
-                      fontSize: 13,
+                      fontSize: 13.spAdaptive(context),
                       fontcolor: Colors.grey[600],
                       height: 1.2,
                     ),
@@ -73,7 +78,7 @@ class MangementCard extends StatelessWidget {
               onPressed: onTap,
               icon: Icon(
                 Icons.arrow_forward_ios_rounded,
-                size: 15,
+                size: 15.spAdaptive(context),
                 color: Colors.grey[400],
               ),
             ),
