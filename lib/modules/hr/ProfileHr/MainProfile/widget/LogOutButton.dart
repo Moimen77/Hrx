@@ -28,13 +28,13 @@ class LogoutButton extends GetView<Hrcontroller> {
         ),
         icon: Icon(
           Icons.logout,
-          size: 20.spAdaptive(context),
+          size: 18.spAdaptive(context),
           color: Colors.red.shade600,
         ),
         label: Text(
           "تسجيل الخروج",
           style: cairoStyle(
-            fontSize: 14.spAdaptive(context),
+            fontSize: 13.3.spAdaptive(context),
             fontweight: FontWeight.bold,
             fontcolor: Colors.red.shade600,
           ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hrx/core/class/ResponsiveClass.dart';
 import 'package:hrx/modules/hr/ProfileHr/MainProfile/widget/MangementCard.dart';
 import 'package:hrx/routes/app_pages.dart';
 
@@ -42,23 +41,6 @@ class MangementsCards extends StatelessWidget {
       ),
     ];
 
-    if (Responsive.isDesktop(context) || Responsive.isTablet(context)) {
-      return GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: items.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: Responsive.isDesktop(context) ? 2 : 1,
-          crossAxisSpacing: 12,
-          mainAxisSpacing: 12,
-          childAspectRatio: Responsive.isDesktop(context) ? 2.5 : 3.4,
-        ),
-        itemBuilder: (context, index) => items[index],
-      );
-    }
-
-    return Column(
-      children: items,
-    );
+    return SingleChildScrollView(child: Column(children: items));
   }
 }

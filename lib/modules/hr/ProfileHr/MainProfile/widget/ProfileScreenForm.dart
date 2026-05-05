@@ -16,7 +16,7 @@ class ProfileScreenForm extends StatelessWidget {
     return SafeArea(
       child: Directionality(
         textDirection: TextDirection.rtl,
-        child: SingleChildScrollView(
+        child: Padding(
           padding: EdgeInsets.symmetric(
             horizontal: isDesktop ? 24 : 15,
             vertical: isDesktop ? 20 : 10,

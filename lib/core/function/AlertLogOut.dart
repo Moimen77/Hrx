@@ -5,6 +5,7 @@ import 'package:hrx/core/constant/TextStyleConst.dart';
 void confirmLogout(Function() onLogout) {
   Get.dialog(
     Dialog(
+      constraints: const BoxConstraints(maxWidth: 500),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Padding(
         padding: const EdgeInsets.all(20.0),
