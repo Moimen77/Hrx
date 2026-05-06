@@ -10,13 +10,7 @@ mixin NetworkAwareMixin on GetxController {
   Future<bool> ensureInternetConnection({bool showMessage = true}) async {
     if (kIsWeb) {
       try {
-        final response = await http
-            .get(Uri.parse('https://jsonplaceholder.typicode.com/posts/1'))
-            .timeout(const Duration(seconds: 5));
-        print('Response status: ${response.statusCode}');
-        if (response.statusCode == 200) {
-          return true;
-        }
+        return true;
       } catch (e) {
         print('No internet connection');
         print('Error: $e');
