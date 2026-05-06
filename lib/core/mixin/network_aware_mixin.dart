@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:hrx/core/class/CheckInternetController.dart';
 import 'package:hrx/core/function/CustomSnackPar.dart';
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
 
 mixin NetworkAwareMixin on GetxController {
   NetworkController get networkController => Get.find<NetworkController>();
