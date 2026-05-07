@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:hrx/core/class/spAdabt.dart';
 import 'package:hrx/core/constant/TextStyleConst.dart';
 
 class TimeItem extends StatelessWidget {
@@ -14,12 +15,18 @@ class TimeItem extends StatelessWidget {
       children: [
         Text(
           title,
-          style: cairoStyle(fontcolor: const Color(0xff939eae), fontSize: 14),
+          style: cairoStyle(
+            fontcolor: const Color(0xff939eae),
+            fontSize: 14.spAdaptive(context),
+          ),
         ),
         const Gap(4),
         Text(
           value,
-          style: cairoStyle(fontSize: 16, fontweight: FontWeight.bold),
+          style: cairoStyle(
+            fontSize: 16.spAdaptive(context),
+            fontweight: FontWeight.bold,
+          ),
         ),
       ],
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:hrx/core/class/spAdabt.dart';
 import 'package:hrx/modules/Employee/HomePage/widget/AttendanceInfo.dart';
 import 'package:hrx/modules/Employee/HomePage/widget/RegisterAttendanceButton.dart';
 import 'package:hrx/modules/Employee/HomePage/widget/TodayAttendanceStatus.dart';
@@ -12,14 +13,15 @@ class AttendanceCard extends StatelessWidget {
     return Card(
       color: Colors.white,
       child: Padding(
-        padding: const EdgeInsets.all(14),
+        padding: EdgeInsets.all(14.spAdaptive(context)),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TodayAttendanceStatus(),
+            const TodayAttendanceStatus(),
             const Gap(15),
-            AttendanceInfo(),
+            const AttendanceInfo(),
             const Gap(20),
-            RegisterAttendanceButton(),
+            const RegisterAttendanceButton(),
           ],
         ),
       ),

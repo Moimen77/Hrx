@@ -9,20 +9,25 @@ class RecentNotificationCards extends GetView<Homepagecontroller> {
 
   @override
   Widget build(BuildContext context) {
+    if (controller.activities.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
     return Expanded(
-      child: ListView.builder(
-        itemCount: controller.activities.length,
-        itemBuilder: (context, index) {
-          final data = getActivityData(
-            controller.activities[index],
-            isEmployee: true,
-          );
-          return NotificationCard(
-            title: data['title'],
-            subtitle: data['description'],
-            icon: data['icon'],
-          );
-        },
+      child: SingleChildScrollView(
+        child: Column(
+          children: List.generate(controller.activities.length, (index) {
+            final data = getActivityData(
+              controller.activities[index],
+              isEmployee: true,
+            );
+            return NotificationCard(
+              title: data['title'],
+              subtitle: data['description'],
+              icon: data['icon'],
+            );
+          }),
+        ),
       ),
     );
   }

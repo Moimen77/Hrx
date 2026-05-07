@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:hrx/core/class/spAdabt.dart';
 import 'package:hrx/core/constant/TextStyleConst.dart';
 import 'package:hrx/data/models/employeeDayModel.dart';
 
@@ -58,8 +59,8 @@ class Statusbadge extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          width: 10,
-          height: 10,
+          width: 10.spAdaptive(context),
+          height: 10.spAdaptive(context),
           decoration: BoxDecoration(color: color, shape: BoxShape.circle),
         ),
         const SizedBox(width: 5),
@@ -68,7 +69,7 @@ class Statusbadge extends StatelessWidget {
           style: cairoStyle(
             fontcolor: color,
             fontweight: FontWeight.bold,
-            fontSize: 12,
+            fontSize: 12.spAdaptive(context),
           ),
         ),
       ],

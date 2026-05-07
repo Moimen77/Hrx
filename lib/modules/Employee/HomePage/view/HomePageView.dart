@@ -26,16 +26,7 @@ class HomepageView extends GetView<Homepagecontroller> {
           onRefresh: () async {
             await controller.loadall();
           },
-          child: ListView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            padding: EdgeInsets.zero,
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height,
-                child: HomepageForm(),
-              ),
-            ],
-          ),
+          child: HomepageForm(),
         );
       }),
     );
