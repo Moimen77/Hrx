@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hrx/core/appColors.dart';
+import 'package:hrx/core/class/spAdabt.dart';
 import 'package:hrx/core/constant/TextStyleConst.dart';
 
 class Bottompages extends StatelessWidget {
@@ -26,7 +27,7 @@ class Bottompages extends StatelessWidget {
         children: [
           Icon(
             icon,
-            size: isactive ? 26 : 23,
+            size: isactive ? 26.spAdaptive(context) : 23.spAdaptive(context),
             color: isactive ? Appcolors.primarycolor : Colors.grey.shade700,
           ),
           Text(
@@ -36,7 +37,7 @@ class Bottompages extends StatelessWidget {
                   ? Appcolors.primarycolor
                   : Colors.grey.shade700,
               fontweight: isactive ? FontWeight.bold : FontWeight.w600,
-              fontSize: 12,
+              fontSize: 14.spAdaptive(context),
             ),
           ),
         ],
