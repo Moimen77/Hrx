@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrx/core/class/spAdabt.dart';
 import 'package:hrx/core/constant/TextStyleConst.dart';
 import 'package:hrx/core/function/FormatedDate.dart';
 import 'package:hrx/data/models/employeeDayModel.dart';
@@ -11,11 +12,16 @@ class DateAndAtatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      spacing: 12.spAdaptive(context),
       children: [
         Text(
           formatDayMonth(item.date),
-          style: cairoStyle(fontweight: FontWeight.bold, fontSize: 16),
+          style: cairoStyle(
+            fontweight: FontWeight.bold,
+            fontSize: 16.spAdaptive(context),
+          ),
         ),
         Statusbadge(attendance: item),
       ],

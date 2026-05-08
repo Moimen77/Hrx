@@ -26,7 +26,7 @@ class Buttonapp extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: width ?? Get.width * 0.9,
-      height: Get.height * 0.077,
+
       child: ElevatedButton.icon(
         onPressed: isloading ? null : OnTap,
         icon: isloading

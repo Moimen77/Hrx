@@ -1,6 +1,8 @@
 // ignore_for_file: non_constant_identifier_names
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrx/core/class/ResponsiveClass.dart';
+import 'package:hrx/core/class/spAdabt.dart';
 import 'package:hrx/core/constant/TextStyleConst.dart';
 import 'package:hrx/modules/Employee/EmpAttendance/controller/AttendanceArchiveController.dart';
 import 'package:hrx/modules/Employee/EmpAttendance/widget/AttendanceCard.dart';
@@ -15,6 +17,9 @@ class Attendacearchiveview extends GetView<AttendanceArciveController> {
 
   @override
   Widget build(BuildContext context) {
+    final isDesktop = Responsive.isDesktop(context);
+    final isTablet = Responsive.isTablet(context);
+
     return Scaffold(
       appBar: CustomAppBar(title: 'سجل الحضور'),
       body: Directionality(
@@ -28,29 +33,65 @@ class Attendacearchiveview extends GetView<AttendanceArciveController> {
               },
             );
           }
-          return Column(
-            children: [
-              FilterSection(),
-              Expanded(
-                child: controller.isLoading.value
-                    ? Loadingcircular()
-                    : controller.records.isEmpty
-                    ? Center(
-                        child: Text('لا توجد سجلات حضور', style: cairoStyle()),
+          return Center(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: isDesktop
+                    ? 1300
+                    : isTablet
+                    ? 980
+                    : double.infinity,
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(isDesktop ? 20 : 12),
+                child: isDesktop
+                    ? Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(flex: 1, child: FilterSection()),
+                          const SizedBox(width: 24),
+                          Expanded(
+                            flex: 2,
+                            child: _buildArchiveContent(context),
+                          ),
+                        ],
                       )
-                    : ListView.builder(
-                        padding: const EdgeInsets.all(8),
-                        itemCount: controller.records.length,
-                        itemBuilder: (context, index) {
-                          final item = controller.records[index];
-                          return AttendanceCardArcive(item: item);
-                        },
+                    : Column(
+                        children: [
+                          const FilterSection(),
+                          const SizedBox(height: 12),
+                          Expanded(child: _buildArchiveContent(context)),
+                        ],
                       ),
               ),
-            ],
+            ),
           );
         }),
       ),
+    );
+  }
+
+  Widget _buildArchiveContent(BuildContext context) {
+    if (controller.isLoading.value) {
+      return Loadingcircular();
+    }
+
+    if (controller.records.isEmpty) {
+      return Center(
+        child: Text(
+          'لا توجد سجلات حضور',
+          style: cairoStyle(fontSize: 15.spAdaptive(context)),
+        ),
+      );
+    }
+
+    return ListView.builder(
+      padding: EdgeInsets.zero,
+      itemCount: controller.records.length,
+      itemBuilder: (context, index) {
+        final item = controller.records[index];
+        return AttendanceCardArcive(item: item);
+      },
     );
   }
 }

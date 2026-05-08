@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrx/core/class/spAdabt.dart';
 import 'package:hrx/core/constant/TextStyleConst.dart';
 import 'package:hrx/data/models/employeeDayModel.dart';
 import 'package:hrx/modules/Employee/EmpAttendance/widget/DateAndStatus.dart';
@@ -12,41 +13,41 @@ class AttendanceCardArcive extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 3,
-      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      margin: EdgeInsets.symmetric(
+        horizontal: 4.spAdaptive(context),
+        vertical: 8.spAdaptive(context),
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.spAdaptive(context)),
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header: Date and Status
             DateAndAtatus(item: item),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
             Divider(height: 1, color: Colors.grey.shade200, thickness: 1),
-
-            // Time Section
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
             TimeCheckInAndOut(item: item),
-
-            // Footer: Shift and Branch with Icons
-            const SizedBox(height: 18),
+            SizedBox(height: 18),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Shift
                 Expanded(
                   child: Row(
                     children: [
                       Icon(
                         Icons.schedule,
-                        size: 18,
+                        size: 18.spAdaptive(context),
                         color: Colors.blue.shade600,
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8),
                       Expanded(
                         child: Text(
                           item.shift_name ?? 'غير محدد',
                           style: cairoStyle(
-                            fontSize: 13,
+                            fontSize: 13.spAdaptive(context),
                             fontcolor: Colors.grey.shade700,
                           ),
                           maxLines: 1,
@@ -56,22 +57,20 @@ class AttendanceCardArcive extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(width: 12),
-                // Branch
                 Expanded(
                   child: Row(
                     children: [
                       Icon(
                         Icons.location_on,
-                        size: 18,
+                        size: 18.spAdaptive(context),
                         color: Colors.red.shade600,
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8),
                       Expanded(
                         child: Text(
                           item.branch_name ?? 'غير محدد',
                           style: cairoStyle(
-                            fontSize: 13,
+                            fontSize: 13.spAdaptive(context),
                             fontcolor: Colors.grey.shade700,
                           ),
                           maxLines: 1,

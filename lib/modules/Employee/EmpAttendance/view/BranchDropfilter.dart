@@ -14,10 +14,10 @@ class BranchDropFilter extends GetView<AttendanceArciveController> {
       value: controller.filter.branchId == null
           ? null
           : controller.branches
-                .firstWhereOrNull(
-                  (b) => b.id.toString() == controller.filter.branchId,
-                )
-                ?.name,
+              .firstWhereOrNull(
+                (b) => b.id.toString() == controller.filter.branchId,
+              )
+              ?.name,
       onChanged: (value) {
         final selectedBranch = controller.branches.firstWhereOrNull(
           (b) => b.name == value,
