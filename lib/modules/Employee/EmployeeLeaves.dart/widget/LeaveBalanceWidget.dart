@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:hrx/core/class/spAdabt.dart';
 import 'package:hrx/core/constant/TextStyleConst.dart';
 import 'package:hrx/core/issixMonthsAfterAppointment.dart';
 import 'package:hrx/data/models/LeaveBalanceModel.dart';
@@ -29,33 +31,34 @@ class LeaveBalanceCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'رصيد الأجازات',
                       style: cairoStyle(
-                        fontSize: 18,
+                        fontSize: 18.spAdaptive(context),
                         fontweight: FontWeight.bold,
                       ),
                     ),
-                    const Gap(16),
+                    Gap(16),
                     _buildRow(
+                      context: context,
                       title: 'أجازة عارضة',
                       used: balance.casualUsed,
                       total: balance.casualTotal,
                       color: Colors.orange,
                     ),
-                    const Gap(12),
-
+                    Gap(12),
                     _buildRow(
+                      context: context,
                       title: 'أجازة اعتيادي',
                       used: balance.annualUsed,
                       total: balance.annualTotal,
                       color: Colors.green,
                     ),
-                    const Divider(height: 32, thickness: 0.5),
+                    Divider(height: 32, thickness: 0.5),
                     Align(
                       alignment: Alignment.center,
                       child: Text(
@@ -65,9 +68,10 @@ class LeaveBalanceCard extends StatelessWidget {
                         '${balance.periodEnd.year}/${balance.periodEnd.month.toString().padLeft(2, '0')}',
                         style: cairoStyle(
                           fontcolor: Colors.grey.shade700,
-                          fontSize: 12,
+                          fontSize: 12.spAdaptive(context),
                           fontweight: FontWeight.w500,
                         ),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   ],
@@ -77,17 +81,18 @@ class LeaveBalanceCard extends StatelessWidget {
           : Card(
               elevation: 2,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16),
                 child: Center(
                   child: Text(
                     'رصيد الأجازات غير متاح بعد',
                     style: cairoStyle(
-                      fontSize: 16,
+                      fontSize: 16.spAdaptive(context),
                       fontweight: FontWeight.bold,
                     ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ),
@@ -96,6 +101,7 @@ class LeaveBalanceCard extends StatelessWidget {
   }
 
   Widget _buildRow({
+    required BuildContext context,
     required String title,
     required int used,
     required int total,
@@ -106,26 +112,32 @@ class LeaveBalanceCard extends StatelessWidget {
       children: [
         Text(
           title,
-          style: cairoStyle(fontweight: FontWeight.w600, fontSize: 15),
+          style: cairoStyle(
+            fontweight: FontWeight.w600,
+            fontSize: 15.spAdaptive(context),
+          ),
         ),
-        const Gap(8),
+        Gap(8.spAdaptive(context)),
         Row(
           children: [
             Expanded(
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(10.spAdaptive(context)),
                 child: LinearProgressIndicator(
                   value: total == 0 ? 0 : used / total,
                   backgroundColor: color.withOpacity(0.2),
                   valueColor: AlwaysStoppedAnimation(color),
-                  minHeight: 8,
+                  minHeight: 8.spAdaptive(context),
                 ),
               ),
             ),
-            const Gap(12),
+            Gap(12.spAdaptive(context)),
             Text(
               '$used / $total',
-              style: cairoStyle(fontweight: FontWeight.bold, fontSize: 14),
+              style: cairoStyle(
+                fontweight: FontWeight.bold,
+                fontSize: 14.spAdaptive(context),
+              ),
             ),
           ],
         ),

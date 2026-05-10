@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrx/core/class/spAdabt.dart';
 import 'package:hrx/core/constant/TextStyleConst.dart';
 
 class LeaveStatusBadge extends StatelessWidget {
@@ -28,15 +29,18 @@ class LeaveStatusBadge extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+      padding: EdgeInsets.symmetric(
+        horizontal: 10.spAdaptive(context),
+        vertical: 4.spAdaptive(context),
+      ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12.spAdaptive(context)),
         color: bgColor,
       ),
       child: Text(
         status,
         style: cairoStyle(
-          fontSize: 13,
+          fontSize: 13.spAdaptive(context),
           fontweight: FontWeight.bold,
           fontcolor: textColor,
         ),
