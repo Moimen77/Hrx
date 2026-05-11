@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrx/core/class/ResponsiveClass.dart';
+import 'package:hrx/core/class/spAdabt.dart';
 import 'package:hrx/core/constant/TextStyleConst.dart';
 import 'package:hrx/modules/Employee/HomePage/controller/HomePageController.dart';
 import 'package:hrx/modules/Employee/Loans/AdvanceArchiveController.dart';
@@ -13,6 +15,9 @@ class AdvanceArchiveView extends GetView<AdvanceArchiveController> {
 
   @override
   Widget build(BuildContext context) {
+    final isDesktop = Responsive.isDesktop(context);
+    final isTablet = Responsive.isTablet(context);
+
     return Scaffold(
       appBar: CustomAppBar(title: 'سجل السلف'),
       body: Directionality(
@@ -31,18 +36,35 @@ class AdvanceArchiveView extends GetView<AdvanceArchiveController> {
           }
           if (controller.advances.isEmpty) {
             return Center(
-              child: Text('لا توجد سلف سابقة', style: cairoStyle()),
+              child: Text(
+                'لا توجد سلف سابقة',
+                style: cairoStyle(fontSize: 15.spAdaptive(context)),
+              ),
             );
           }
-          return RefreshIndicator(
-            onRefresh: () async {
-              await controller.fetchUserAdvances();
-            },
-            child: ListView.builder(
-              padding: const EdgeInsets.all(12),
-              itemCount: controller.advances.length,
-              itemBuilder: (context, index) =>
-                  AdvanceCard(advance: controller.advances[index]),
+          return Center(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: isDesktop
+                    ? 1040
+                    : isTablet
+                    ? 900
+                    : double.infinity,
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(isDesktop ? 24 : 12),
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    await controller.fetchUserAdvances();
+                  },
+                  child: ListView.builder(
+                    padding: EdgeInsets.zero,
+                    itemCount: controller.advances.length,
+                    itemBuilder: (context, index) =>
+                        AdvanceCard(advance: controller.advances[index]),
+                  ),
+                ),
+              ),
             ),
           );
         }),
