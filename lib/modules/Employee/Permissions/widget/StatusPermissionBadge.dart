@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:hrx/core/class/spAdabt.dart';
 import 'package:hrx/core/constant/TextStyleConst.dart';
 
 class StatusPermissionBadge extends StatelessWidget {
@@ -27,21 +28,24 @@ class StatusPermissionBadge extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      padding: EdgeInsets.symmetric(
+        horizontal: 10.spAdaptive(context),
+        vertical: 6.spAdaptive(context),
+      ),
       decoration: BoxDecoration(
         color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.spAdaptive(context)),
         border: Border.all(color: color.withOpacity(0.3)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 16, color: color),
-          const SizedBox(width: 6),
+          Icon(icon, size: 16.spAdaptive(context), color: color),
+          SizedBox(width: 6.spAdaptive(context)),
           Text(
             text,
             style: cairoStyle(
-              fontSize: 12,
+              fontSize: 12.spAdaptive(context),
               fontcolor: color,
               fontweight: FontWeight.bold,
             ),

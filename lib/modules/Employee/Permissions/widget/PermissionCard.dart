@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:hrx/core/class/spAdabt.dart';
 import 'package:hrx/core/class/TimeHelper.dart';
 import 'package:hrx/data/models/Perrmission_Model.dart';
 import 'package:hrx/modules/Employee/Permissions/widget/InfoPermissionRow.dart';
@@ -13,15 +13,17 @@ class PermissionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 3,
-      margin: const EdgeInsets.only(bottom: 16),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      margin: EdgeInsets.only(bottom: 16.spAdaptive(context)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.spAdaptive(context)),
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.spAdaptive(context)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TitlePermissionCard(permission: permission),
-            const Divider(height: 24),
+            Divider(height: 24.spAdaptive(context)),
             InfoPermissionRow(
               icon: Icons.calendar_month_outlined,
               label: 'التاريخ',
@@ -30,7 +32,9 @@ class PermissionCard extends StatelessWidget {
             InfoPermissionRow(
               icon: Icons.person_outline,
               label: 'البديل',
-              value: permission.substituteEmployeeName!,
+              value: permission.substituteEmployeeName?.isNotEmpty == true
+                  ? permission.substituteEmployeeName!
+                  : 'لم يتم توفير بديل',
             ),
             if (permission.notes != null && permission.notes!.isNotEmpty)
               InfoPermissionRow(

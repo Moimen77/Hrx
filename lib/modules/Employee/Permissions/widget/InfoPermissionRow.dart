@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrx/core/class/spAdabt.dart';
 import 'package:hrx/core/constant/TextStyleConst.dart';
 
 class InfoPermissionRow extends StatelessWidget {
@@ -15,20 +16,26 @@ class InfoPermissionRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
+      padding: EdgeInsets.only(bottom: 8.spAdaptive(context)),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 20, color: Colors.grey.shade600),
-          const SizedBox(width: 10),
+          Icon(icon, size: 20.spAdaptive(context), color: Colors.grey.shade600),
+          SizedBox(width: 10.spAdaptive(context)),
           Text(
             '$label: ',
-            style: cairoStyle(fontSize: 14, fontcolor: Colors.grey.shade600),
+            style: cairoStyle(
+              fontSize: 14.spAdaptive(context),
+              fontcolor: Colors.grey.shade600,
+            ),
           ),
           Expanded(
             child: Text(
               value,
-              style: cairoStyle(fontSize: 14, fontweight: FontWeight.w600),
+              style: cairoStyle(
+                fontSize: 14.spAdaptive(context),
+                fontweight: FontWeight.w600,
+              ),
             ),
           ),
         ],

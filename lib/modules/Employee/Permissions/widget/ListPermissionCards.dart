@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrx/core/class/spAdabt.dart';
 import 'package:hrx/modules/Employee/Permissions/controller/Permission_Controller.dart';
 import 'package:hrx/modules/Employee/Permissions/widget/PermissionCard.dart';
 
@@ -13,7 +14,7 @@ class ListPermissionCards extends GetView<PermissionController> {
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: ListView.builder(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(4.spAdaptive(context)),
           itemCount: controller.permissions.length,
           itemBuilder: (context, index) {
             final permission = controller.permissions[index];

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrx/core/class/ResponsiveClass.dart';
+import 'package:hrx/core/class/spAdabt.dart';
 import 'package:hrx/core/constant/TextStyleConst.dart';
 import 'package:hrx/modules/Employee/HomePage/controller/HomePageController.dart';
 import 'package:hrx/modules/Employee/Permissions/controller/Permission_Controller.dart';
@@ -14,13 +16,16 @@ class PermissionView extends GetView<PermissionController> {
 
   @override
   Widget build(BuildContext context) {
+    final isDesktop = Responsive.isDesktop(context);
+    final isTablet = Responsive.isTablet(context);
+
     return Scaffold(
       appBar: CustomAppBar(
         title: 'سجل الأذونات',
         actions: [
           if (controller.ismanager)
             Padding(
-              padding: const EdgeInsets.only(right: 10),
+              padding: EdgeInsets.only(right: 10),
               child: Obx(
                 () => Stack(
                   clipBehavior: Clip.none,
@@ -58,7 +63,7 @@ class PermissionView extends GetView<PermissionController> {
                                 : controller.padgeCount.toString(),
                             style: cairoStyle(
                               fontcolor: Colors.white,
-                              fontSize: 9,
+                              fontSize: 9.spAdaptive(context),
                             ),
                           ),
                         ),
@@ -82,10 +87,24 @@ class PermissionView extends GetView<PermissionController> {
           return const Center(child: CircularProgressIndicator());
         }
         if (controller.permissions.isEmpty) {
-          return NoPermissionWidget();
+          return const NoPermissionWidget();
         }
 
-        return ListPermissionCards();
+        return Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: isDesktop
+                  ? 1100
+                  : isTablet
+                  ? 900
+                  : double.infinity,
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(isDesktop ? 24 : 12),
+              child: const ListPermissionCards(),
+            ),
+          ),
+        );
       }),
     );
   }
