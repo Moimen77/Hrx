@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hrx/core/class/TimeHelper.dart';
+import 'package:hrx/core/class/spAdabt.dart';
 import 'package:hrx/core/constant/TextStyleConst.dart';
 import 'package:hrx/data/models/Leaves_Model.dart';
 
@@ -11,21 +11,26 @@ class DateInfoContatiner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(12.spAdaptive(context)),
       decoration: BoxDecoration(
         color: Colors.grey.shade100,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12.spAdaptive(context)),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(Icons.calendar_month, color: Colors.grey),
-          const SizedBox(width: 8),
+          Icon(
+            Icons.calendar_month,
+            color: Colors.grey,
+            size: 20.spAdaptive(context),
+          ),
+          SizedBox(width: 8.spAdaptive(context)),
           Expanded(
             child: Text(
               leave.startDate == leave.endDate
                   ? 'يوم ${TimeHelper.formatDateToArabic(leave.startDate)}'
                   : 'من ${TimeHelper.formatDateToArabic(leave.startDate)}\nإلى ${TimeHelper.formatDateToArabic(leave.endDate)}',
-              style: cairoStyle(fontSize: 14),
+              style: cairoStyle(fontSize: 14.spAdaptive(context)),
             ),
           ),
         ],

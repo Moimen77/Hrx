@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrx/core/class/spAdabt.dart';
 import 'package:hrx/data/models/Leaves_Model.dart';
 import 'package:hrx/modules/Employee/substitute/controller/Substitute_Controller.dart';
 import 'package:hrx/modules/Employee/substitute/widget/DateInfoContatiner.dart';
@@ -25,19 +26,20 @@ class LeaveCard extends GetView<SubstituteController> {
     }
     return Card(
       elevation: 6,
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      margin: EdgeInsets.symmetric(vertical: 10.spAdaptive(context)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.spAdaptive(context)),
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.spAdaptive(context)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header
             RequestSubTitle(leave: leave),
+            SizedBox(height: 12.spAdaptive(context)),
             DateInfoContatiner(leave: leave),
-            const Divider(),
-            const SizedBox(height: 5),
-            Center(child: statusWidget),
+            Divider(height: 24.spAdaptive(context)),
+            statusWidget,
           ],
         ),
       ),
