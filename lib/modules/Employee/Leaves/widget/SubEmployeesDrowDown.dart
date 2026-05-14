@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrx/core/class/spAdabt.dart';
 import 'package:hrx/core/constant/TextStyleConst.dart';
 import 'package:hrx/modules/Employee/Leaves/controller/RequestLeaveController.dart';
 
@@ -22,7 +23,7 @@ class SubEmployeesDrowdown extends GetView<LeaveController> {
               value: e.name,
               child: Text(
                 e.name ?? '',
-                style: cairoStyle(fontSize: 14, fontweight: FontWeight.w600),
+                style: cairoStyle(fontSize: 14.spAdaptive(context), fontweight: FontWeight.w600),
               ),
             ),
           )

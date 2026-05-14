@@ -36,7 +36,11 @@ class Dropdownaddemployee<T> extends StatelessWidget {
         ),
 
         labelText: title,
-        labelStyle: cairoStyle(),
+        labelStyle: cairoStyle(
+          fontSize: 14.spAdaptive(context),
+          fontweight: FontWeight.w600,
+        ),
+
         prefixIcon: Icon(
           icon,
           color: Appcolors.primarycolor,

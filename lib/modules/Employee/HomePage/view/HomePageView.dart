@@ -12,13 +12,13 @@ class HomepageView extends GetView<Homepagecontroller> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(() {
-        if (!controller.networkController.isConnected.value) {
-          return NoInternetWidget(
-            onPressed: () async {
-              await controller.loadall();
-            },
-          );
-        }
+        // if (!controller.networkController.isConnected.value) {
+        //   return NoInternetWidget(
+        //     onPressed: () async {
+        //       await controller.loadall();
+        //     },
+        //   );
+        // }
         if (controller.isloading.value) {
           return Loadingcircular();
         }

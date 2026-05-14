@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrx/core/class/spAdabt.dart';
 import 'package:hrx/modules/Employee/Leaves/controller/RequestLeaveController.dart';
 import 'package:hrx/modules/Employee/Leaves/widget/AllEmployeesSelected.dart';
 import 'package:hrx/modules/Employee/Leaves/widget/MangerDropDown.dart';
@@ -17,18 +18,20 @@ class SubDetailsCard extends GetView<LeaveController> {
       color: Colors.white,
       shadowColor: Colors.black87,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
+        borderRadius: BorderRadius.circular(10.spAdaptive(context)),
         side: BorderSide(color: Colors.grey.shade300, width: 1.2),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(22.0),
+        padding: EdgeInsets.all(22),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SubEmpText(),
-            SizedBox(height: controller.Ismanger ? 0 : 20),
-            !(controller.Ismanger) ? MangerDropdown() : SizedBox.shrink(),
-            SizedBox(height: 20),
+            const SubEmpText(),
+            SizedBox(height: controller.Ismanger ? 0 : 20.spAdaptive(context)),
+            !(controller.Ismanger)
+                ? const MangerDropdown()
+                : const SizedBox.shrink(),
+            SizedBox(height: 20.spAdaptive(context)),
             Obx(
               () => Column(
                 children: [
@@ -44,9 +47,10 @@ class SubDetailsCard extends GetView<LeaveController> {
                       }
                     },
                   ),
+                  SizedBox(height: 20.spAdaptive(context)),
                   (!controller.isAllEmployeesSelected.value)
-                      ? SubEmployeesDrowdown()
-                      : AllEmployeesSelected(),
+                      ? const SubEmployeesDrowdown()
+                      : const AllEmployeesSelected(),
                 ],
               ),
             ),
