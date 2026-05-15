@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrx/core/class/spAdabt.dart';
 import 'package:hrx/core/constant/TextStyleConst.dart';
 import 'package:hrx/modules/Employee/Manager_Leave_Reponse/controller/PermissionRequestController.dart';
 import 'package:hrx/modules/Employee/Manager_Leave_Reponse/widget/SectionLabel.dart';
@@ -19,10 +20,10 @@ class DirectManagerSelector extends GetView<PermissionRequestController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Sectionlabel(title: 'الموظف المباشر'),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.spAdaptive(context)),
         Obx(
           () => Container(
-            decoration: formBoxDecoration(),
+            decoration: formBoxDecoration(context),
             child: Dropdownaddemployee(
               value: controller.selectedManagerId.value?.toString(),
               onChanged: (val) =>
@@ -36,7 +37,10 @@ class DirectManagerSelector extends GetView<PermissionRequestController> {
                   .map(
                     (emp) => DropdownMenuItem<String>(
                       value: emp.id.toString(),
-                      child: Text(emp.name ?? '', style: cairoStyle()),
+                      child: Text(
+                        emp.name ?? '',
+                        style: cairoStyle(fontSize: 14.spAdaptive(context)),
+                      ),
                     ),
                   )
                   .toList(),

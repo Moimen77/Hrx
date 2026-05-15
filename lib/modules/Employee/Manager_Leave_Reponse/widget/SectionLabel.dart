@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrx/core/class/spAdabt.dart';
 import 'package:hrx/core/constant/TextStyleConst.dart';
 
 class Sectionlabel extends StatelessWidget {
@@ -8,11 +9,11 @@ class Sectionlabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 4),
+      padding: EdgeInsets.only(right: 4.spAdaptive(context)),
       child: Text(
         title,
         style: cairoStyle(
-          fontSize: 15,
+          fontSize: 15.spAdaptive(context),
           fontweight: FontWeight.bold,
           fontcolor: Colors.black87,
         ),

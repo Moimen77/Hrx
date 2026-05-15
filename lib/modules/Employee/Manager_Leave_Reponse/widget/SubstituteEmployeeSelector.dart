@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrx/core/class/spAdabt.dart';
 import 'package:hrx/core/constant/TextStyleConst.dart';
 import 'package:hrx/modules/Employee/Leaves/widget/AllEmployeesSelected.dart';
 import 'package:hrx/modules/Employee/Leaves/widget/selectAllEmployeeRow.dart';
@@ -16,9 +17,9 @@ class SubstituteEmployeeSelector extends GetView<PermissionRequestController> {
       children: [
         Obx(
           () => controller.isallEmployeeSelected.value
-              ? AllEmployeesSelected()
+              ? const AllEmployeesSelected()
               : Container(
-                  decoration: formBoxDecoration(),
+                  decoration: formBoxDecoration(context),
                   child: Dropdownaddemployee(
                     value: controller.selectedSubstituteId.value?.toString(),
                     onChanged: (val) => controller.selectedSubstituteId.value =
@@ -33,7 +34,12 @@ class SubstituteEmployeeSelector extends GetView<PermissionRequestController> {
                         .map(
                           (emp) => DropdownMenuItem<String>(
                             value: emp.id.toString(),
-                            child: Text(emp.name ?? '', style: cairoStyle()),
+                            child: Text(
+                              emp.name ?? '',
+                              style: cairoStyle(
+                                fontSize: 14.spAdaptive(context),
+                              ),
+                            ),
                           ),
                         )
                         .toList(),
@@ -42,6 +48,7 @@ class SubstituteEmployeeSelector extends GetView<PermissionRequestController> {
                   ),
                 ),
         ),
+        SizedBox(height: 8.spAdaptive(context)),
         Obx(
           () => SelectAllEmployeeRow(
             onTap: () {
