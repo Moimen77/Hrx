@@ -47,7 +47,13 @@ class TimeHelper {
   /// حساب الفرق بين start و end
   static Duration difference(String start, String end) {
     final startDur = toDuration(start);
-    final endDur = toDuration(end);
+    var endDur = toDuration(end);
+
+    // لو انتهى في اليوم التالي
+    if (endDur < startDur) {
+      endDur += const Duration(days: 1);
+    }
+
     return endDur - startDur;
   }
 
