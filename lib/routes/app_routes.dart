@@ -7,6 +7,7 @@ import 'package:hrx/modules/Auth/view/CheckEmail.dart';
 import 'package:hrx/modules/Auth/view/ReseetPassword.dart';
 import 'package:hrx/modules/Auth/view/inactive_account_view.dart';
 import 'package:hrx/modules/Auth/view/login.dart';
+import 'package:hrx/modules/Employee/EmpAttendance/Binding/AttendanceBinding.dart';
 import 'package:hrx/modules/Employee/EmpAttendance/view/CheckInView.dart';
 import 'package:hrx/modules/Employee/HomeScreenEmployee/HomeScreen.dart';
 import 'package:hrx/modules/Employee/HomeScreenEmployee/HomeScreenBinding.dart';
@@ -159,7 +160,11 @@ class AppPages {
       page: () => RequestAdvanceView(),
       binding: Loanbinding(),
     ),
-    GetPage(name: AppRoutes.checkInOut, page: () => AttendancePage()),
+    GetPage(
+      name: AppRoutes.checkInOut,
+      page: () => AttendancePage(),
+      binding: RegisterAttendanceBinding(),
+    ),
     GetPage(
       name: AppRoutes.mangerResponse,
       page: () => ManagerLeavesView(),
