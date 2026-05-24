@@ -1,8 +1,10 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hrx/core/appColors.dart';
+import 'package:hrx/core/class/ResponsiveClass.dart';
 import 'package:hrx/core/class/spAdabt.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -37,6 +39,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             fontSize: 17.spAdaptive(context),
           ),
         ),
+        toolbarHeight: Responsive.isDesktop(context) ? 35.spAdaptive(context) : kToolbarHeight,
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0, // مهم! عشان الخط يظهر
@@ -63,5 +66,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => Responsive.isDesktop(Get.context!)
+      ? Size.fromHeight(35.spAdaptive(Get.context!))
+      : const Size.fromHeight(kToolbarHeight);
 }

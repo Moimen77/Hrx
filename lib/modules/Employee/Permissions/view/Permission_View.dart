@@ -34,14 +34,17 @@ class PermissionView extends GetView<PermissionController> {
                       onPressed: () {
                         Get.toNamed(AppRoutes.permissionReequest);
                       },
-                      icon: const Icon(Icons.voice_chat),
+                      icon: Icon(
+                        Icons.voice_chat,
+                        size: 20.spAdaptive(context),
+                      ),
                     ),
 
                     /// Badge
                     if (controller.padgeCount > 0)
                       Positioned(
-                        right: 6,
-                        top: 6,
+                        right: isDesktop ? 40 : 25,
+                        top: isDesktop ? 25 : 20,
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 5,
