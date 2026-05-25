@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "22440533026",
+    "project_id": "hrxsystem-1da8a",
+    "storage_bucket": "hrxsystem-1da8a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:22440533026:android:70fe22a2043d9c20943e7b",
+        "android_client_info": {
+          "package_name": "com.example.hrx"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCY5FPutWxoV6oqT0mUIpySdq45Btw5rwg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
