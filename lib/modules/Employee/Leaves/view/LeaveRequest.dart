@@ -15,13 +15,13 @@ class LeaveRequestView extends GetView<LeaveController> {
     return Scaffold(
       appBar: CustomAppBar(title: 'طلب إجازة'),
       body: Obx(() {
-        // if (!controller.networkController.isConnected.value) {
-        //   return NoInternetWidget(
-        //     onPressed: () async {
-        //       await controller.loadInitialData();
-        //     },
-        //   );
-        // }
+        if (!controller.networkController.isConnected.value) {
+          return NoInternetWidget(
+            onPressed: () async {
+              await controller.loadInitialData();
+            },
+          );
+        }
         if (controller.isDataLoading.value) {
           return Center(
             child: CircularProgressIndicator(color: Appcolors.primarycolor),

@@ -244,15 +244,14 @@ class AdvanceArchiveView extends GetView<AdvanceArchiveController> {
         return Loadingcircular();
       }
 
-      // if (!controller.networkController.isConnected.value) {
-      //   return NoInternetWidget(
-      //     onPressed: () async {
-      //       await controller.fetchUserAdvances();
-      //     },
-      //   );
-      // }
+      if (!controller.networkController.isConnected.value) {
+        return NoInternetWidget(
+          onPressed: () async {
+            await controller.fetchUserAdvances();
+          },
+        );
+      }
       final displayList = controller.filteredAdvances;
-      print('Filtered Advances Count: ${displayList.length}'); // Debug print
       if (displayList.isEmpty) {
         return Center(
           child: Text(
